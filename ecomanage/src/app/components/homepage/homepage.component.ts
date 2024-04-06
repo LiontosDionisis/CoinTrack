@@ -10,9 +10,5 @@ import { MenuItem } from 'shared/menu-item';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
-  menu: MenuItem[] = [
-    {text: "Income", routerLink: "/income"},
-    {text: "Expenses", routerLink: "/expenses"},
-    {text: "My Total", routerLink: "/total"}
-  ]
+ 
 }
