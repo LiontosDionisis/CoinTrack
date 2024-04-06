@@ -7,7 +7,6 @@ import { ExpensesTabComponent } from './components/expenses-tab/expenses-tab.com
 import { TotalComponent } from './components/total/total.component';
 
 export const routes: Routes = [
-    {path: "", redirectTo: "/login", pathMatch: 'full'},
     {path: "login", component: LoginComponent},
     {path: "signup", component: SignupComponent},
     // {path: "", component: HomepageComponent},
