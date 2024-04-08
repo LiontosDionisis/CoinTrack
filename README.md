@@ -1,1 +1,1 @@
-# eco-manage
+A fullstack application to track your income and expenses 
