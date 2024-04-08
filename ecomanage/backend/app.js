@@ -2,7 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
+
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true }));
 
 const user = require("../backend/routes/user.route");
 

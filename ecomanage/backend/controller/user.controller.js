@@ -8,6 +8,7 @@ exports.create = async(req, res) => {
     })
 
     try {
+        console.log("Create a user");
         const result = await newUser.save();
         res.status(200).json({data: result});
         console.log("User inserted")
