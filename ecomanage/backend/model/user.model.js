@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
     wallet: {type: Number, default: 0},
 })
 
+userSchema.pre('save', function(next) {
+    this.wallet = this.totalIncome - this.totalExpenses;
+    next();
+  });
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

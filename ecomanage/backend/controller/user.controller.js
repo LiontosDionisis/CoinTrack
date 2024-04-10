@@ -50,7 +50,7 @@ exports.delete = async(req, res) => {
 }
 
 exports.addIncome = async (req, res) => {
-    const userId = req.params.userId; 
+    const username = req.params.username; 
     const { amount } = req.body; 
   
     try {
@@ -59,8 +59,8 @@ exports.addIncome = async (req, res) => {
         return res.status(400).json({ error: "Invalid income amount" });
       }
   
-      // Find the user by ID
-      const user = await User.findById(userId);
+      // Find the user by username
+      const user = await User.findOne({username: username});
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
@@ -77,4 +77,53 @@ exports.addIncome = async (req, res) => {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   };
+
+  exports.addExpense = async(req, res) => {
+    const username = req.params.username;
+    const {amount} = req.body;
+
+    try {
+        if (!amount || isNaN(amount) || amount <= 0) {
+            return res.status(400).json({error: "Invalid  amount"});
+        }
+        const user = await User.findOne({username: username});
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      // Update the user's total income
+      user.totalExpenses += parseFloat(amount);
+      await user.save();
+  
+      // Return a success response
+      return res.status(200).json({ message: "Expenses added successfully", data: user });
+    } catch (error) {
+      // Handle any errors
+      console.error("Error adding expenses:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    }
+  
+
+    exports.calculateWallet = async (req, res) => {
+        const username = req.params.username; 
+      
+        try {
+          // Find the user by username
+          const user = await User.findOne({ username: username });
+          if (!user) {
+            return res.status(404).json({ error: "User not found" });
+          }
+          
+          // Calculate net income (total income - total expenses)
+          const wallet = user.totalIncome - user.totalExpenses;
+          
+          // Return the net income to the client
+          return res.status(200).json({ wallet: wallet });
+        } catch (error) {
+          // Handle any errors
+          console.error("Error calculating wallet:", error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+    };
+    
   
