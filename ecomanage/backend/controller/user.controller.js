@@ -48,3 +48,33 @@ exports.delete = async(req, res) => {
         res.status(404).json({data: err});
     }
 }
+
+exports.addIncome = async (req, res) => {
+    const userId = req.params.userId; 
+    const { amount } = req.body; 
+  
+    try {
+      // Validate the income amount
+      if (!amount || isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ error: "Invalid income amount" });
+      }
+  
+      // Find the user by ID
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      // Update the user's total income
+      user.totalIncome += parseFloat(amount);
+      await user.save();
+  
+      // Return a success response
+      return res.status(200).json({ message: "Income added successfully", data: user });
+    } catch (error) {
+      // Handle any errors
+      console.error("Error adding income:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+  
