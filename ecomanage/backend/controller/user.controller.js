@@ -34,3 +34,17 @@ exports.create = async(req, res) => {
         console.log("Error", err)
     }
 }
+
+exports.delete = async(req, res) => {
+    const username = req.params.username;
+
+    try {
+        const usernameExists = await User.findOne({username: req.params.username});
+        if(!usernameExists) return res.status(404).send("Username not found")
+        const result = await User.findOneAndDelete({username: username})
+        res.status(200).json({data:result});
+        console.log("User deleted");
+    } catch(err) {
+        res.status(404).json({data: err});
+    }
+}

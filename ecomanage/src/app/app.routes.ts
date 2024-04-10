@@ -4,7 +4,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { IncomeTabComponent } from './components/income-tab/income-tab.component';
 import { ExpensesTabComponent } from './components/expenses-tab/expenses-tab.component';
-import { TotalComponent } from './components/total/total.component';
+
 
 export const routes: Routes = [
     {path: "", redirectTo: "/login", pathMatch: 'full'},
@@ -13,5 +13,5 @@ export const routes: Routes = [
     {path: "homepage", component: HomepageComponent},
     {path: "income", component: IncomeTabComponent},
     {path: "expenses", component: ExpensesTabComponent},
-    {path: "total", component: TotalComponent}
+    {path: "total", component: HomepageComponent}
 ];

@@ -22,8 +22,9 @@ export class SideBarComponent {
   constructor(private router: Router) {}
 
   menu: MenuItem[] = [
+    {text: "Home", routerLink: "/homepage"},
     {text: "Income", routerLink: "/income"},
     {text: "Expenses", routerLink: "/expenses"},
-    {text: "My Total", routerLink: "/total"}
+    
   ]
 }
