@@ -2,6 +2,7 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Quicksand', sans-serif;
 }
 
 
@@ -15,3 +16,5 @@ body {
     left: 0;
     z-index: -1; /* Ensure the background is behind other content */
   }
+
+ 
