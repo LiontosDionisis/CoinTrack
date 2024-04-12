@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-income-tab',
@@ -9,6 +11,15 @@ import { Component } from '@angular/core';
   styleUrl: './income-tab.component.css'
 })
 export class IncomeTabComponent {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      // navigate to login page
+      this.router.navigate(["/login"])
+    }
+  }
+ 
 // incomeAmount: any;
 //   constructor(private http: HttpClient) { }
 

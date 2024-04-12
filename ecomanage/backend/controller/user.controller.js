@@ -1,5 +1,39 @@
 const User = require("../model/user.model");
 const {registerValidation, loginValidation} = require("./validation")
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const secretKey = process.env.JWT_SECRET;
+
+
+
+exports.login = async(req, res) => {
+  const {username, password} = req.body;
+
+  try {
+    // Check if the username exists in the database
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: 'Username not found' });
+    }
+
+    // Verify the password
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Incorrect password' });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+
+    // Send the token back in the response
+    res.status(200).json({ token });
+  } catch (error) {
+    console.error('Login failed:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 
 exports.create = async (req, res) => {
@@ -21,12 +55,14 @@ exports.create = async (req, res) => {
       if (usernameExists) {
           return res.status(400).json({ error: 'Username already taken' });
       }
+      
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
       // Create a new user
       const newUser = new User({
           name: req.body.name,
           username: req.body.username,
-          password: req.body.password,
+          password: hashedPassword,
           email: req.body.email
       });
 
@@ -39,37 +75,7 @@ exports.create = async (req, res) => {
   }
 };
 
-// exports.create = async(req, res) => { 
-//     const newUser = new User({
-//         username: req.body.username,
-//         password: req.body.password,
-//         email: req.body.email
-//     })
 
-//     try {
-//         const {error} = await registerValidation(req.body);
-//         if (error) {
-//             res.status(400).json({error: error});
-//         }
-//         // Check if email exists
-//         const emailExists = await User.findOne({email: req.body.email});
-//         if(emailExists) return res.status(400).send("Email already exists")
-
-//         // Check if username exists
-//         const usernameExists = await User.findOne({username: req.body.username });
-//         if(usernameExists) return res.status(400).send("Username already taken");
-        
-//         // User Registration
-//         console.log("Create a user");
-//         const result = await newUser.save();
-//         res.status(200).json({data: result});
-//         console.log("User inserted")
-//     } catch (err) {
-//         //res.send(error.details[0].message);
-//         res.status(500).json({data: err});
-//         console.log("Error", err)
-//     }
-// }
 
 exports.delete = async(req, res) => {
     const username = req.params.username;
