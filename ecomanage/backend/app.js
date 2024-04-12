@@ -25,8 +25,8 @@ mongoose.connect(process.env.DB_URI, {
 
 const cors = require("cors");
 app.use(cors({
-    origin: ['http://localhost:4200/']
-}))
+    origin: 'http://localhost:4200'
+}));
 
 
 app.use("/api/user", user);
