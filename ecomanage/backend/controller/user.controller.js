@@ -91,6 +91,20 @@ exports.delete = async(req, res) => {
     }
 }
 
+exports.getIncome = async(req, res) => {
+  const {username} = req.body;
+
+  try {
+    const user= await User.findOne({username:username});
+    if (!user) return res.status(404).send("User not found");
+    res.status(200).json({totalIncome: user.totalIncome});
+    console.log("Get income");
+  } catch (err) {
+    res.status(500).json({data: err});
+    console.log("Error appeared");
+  }
+}
+
 exports.addIncome = async (req, res) => {
     const username = req.params.username; 
     const { amount } = req.body; 
