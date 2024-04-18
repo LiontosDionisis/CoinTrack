@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const incomeSchema = new mongoose.Schema({
+  amount: { type: Number, required: true },
+  source: { type: String, required: true }
+});
+
 const userSchema = new mongoose.Schema({
     name: {type: String, min: 3 , max: 20, required: true},
     username: {type: String, min: 6, max: 20, required: true},
@@ -8,6 +13,7 @@ const userSchema = new mongoose.Schema({
     totalIncome: {type: Number, default: 0, required: false},
     totalExpenses: {type: Number, default: 0},
     wallet: {type: Number, default: 0},
+    incomeTransactions: [incomeSchema]
 })
 
 userSchema.pre('save', function(next) {

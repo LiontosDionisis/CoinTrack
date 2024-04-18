@@ -8,9 +8,7 @@ userController = require("../controller/user.controller");
 
 router.post("/signup", userController.create);
 router.post("/login", userController.login);
-router.post("/:username/addIncome", userController.addIncome)
-router.post("/:username/addExpense", userController.addExpense)
-router.post("/", userController.getIncome);
-router.delete("/:username", userController.delete)
+router.post("/addIncome", userController.addIncome);
+router.delete("/:username", userController.delete);
 
 module.exports = router

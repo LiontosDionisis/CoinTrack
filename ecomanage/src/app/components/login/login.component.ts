@@ -25,19 +25,22 @@ export class LoginComponent {
   
     username: string;
     password: string;
-    errrorMessage: string;
+    errorMessage: string;
 
-  login(): void {
-    this.authService.login(this.username, this.password).subscribe(
-      (response) => {
-        console.log("Login successful", response);
-        this.router.navigate(["/homepage"]);
-        localStorage.setItem("authToken", response.token);
-      },
-      (error) => {
-        console.log("Login failed", error);
-        this.errrorMessage = error.error.error
-      }
-    )
-  }
+    login(): void {
+      this.authService.login(this.username, this.password).subscribe({
+        next: (response) => {
+          console.log("Login successful", response);
+          this.router.navigate(["/homepage"]);
+          localStorage.setItem("authToken", response.token);
+          localStorage.setItem("name", response.name);
+          localStorage.setItem('username', this.username);
+        },
+        error: (error) => {
+          console.log("Login failed", error);
+          this.errorMessage = error.error.error;
+        }
+      });
+    }
+    
 }

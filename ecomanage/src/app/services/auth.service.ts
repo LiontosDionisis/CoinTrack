@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { HttpClientModule } from '@angular/common/http';
+
 
 
 @Injectable({
@@ -18,6 +18,10 @@ export class AuthService {
         return throwError(error);
       })
     )
+  }
+
+  getName() {
+    return localStorage.getItem("name");
   }
 
   logout(): void {

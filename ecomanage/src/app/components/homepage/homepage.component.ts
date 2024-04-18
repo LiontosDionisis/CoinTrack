@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MenuItem } from 'shared/menu-item';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,13 +12,17 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private router: Router) {}
+  authService = inject(AuthService);
+
+  name: string;
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn()) {
       // navigate to login page
       this.router.navigate(["/login"])
     }
+    this.name = this.authService.getName();
   }
  
 }

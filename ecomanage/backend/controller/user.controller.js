@@ -7,9 +7,8 @@ require('dotenv').config();
 const secretKey = process.env.JWT_SECRET;
 
 
-
-exports.login = async(req, res) => {
-  const {username, password} = req.body;
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
 
   try {
     // Check if the username exists in the database
@@ -23,17 +22,21 @@ exports.login = async(req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
     }
+    name = user.name;
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+    
+    // Send the token and name back in the response
+    res.status(200).json({ token, name, username});
 
-    // Send the token back in the response
-    res.status(200).json({ token });
+
   } catch (error) {
     console.error('Login failed:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
+
 
 
 exports.create = async (req, res) => {
@@ -91,95 +94,30 @@ exports.delete = async(req, res) => {
     }
 }
 
-exports.getIncome = async(req, res) => {
-  const {username} = req.body;
-
+exports.addIncome = async(req, res) => {
+  const {incomeAmount, incomeSource, username} = req.body;
   try {
-    const user= await User.findOne({username:username});
-    if (!user) return res.status(404).send("User not found");
-    res.status(200).json({totalIncome: user.totalIncome});
-    console.log("Get income");
-  } catch (err) {
-    res.status(500).json({data: err});
-    console.log("Error appeared");
+    const newIncomeTransaction = {
+      amount: incomeAmount,
+      source: incomeSource
+    }
+
+    const user = await User.findOne({username});
+  
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+  
+    user.incomeTransactions.push(newIncomeTransaction); 
+
+    await user.save();
+    res.status(201).json({ message: 'Income transaction added successfully' });
+
+  } catch (error) {
+    console.error('Error adding income transaction:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 }
 
-exports.addIncome = async (req, res) => {
-    const username = req.params.username; 
-    const { amount } = req.body; 
-  
-    try {
-      // Validate the income amount
-      if (!amount || isNaN(amount) || amount <= 0) {
-        return res.status(400).json({ error: "Invalid income amount" });
-      }
-  
-      // Find the user by username
-      const user = await User.findOne({username: username});
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-  
-      // Update the user's total income
-      user.totalIncome += parseFloat(amount);
-      await user.save();
-  
-      // Return a success response
-      return res.status(200).json({ message: "Income added successfully", data: user });
-    } catch (error) {
-      // Handle any errors
-      console.error("Error adding income:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-  };
 
-  exports.addExpense = async(req, res) => {
-    const username = req.params.username;
-    const {amount} = req.body;
-
-    try {
-        if (!amount || isNaN(amount) || amount <= 0) {
-            return res.status(400).json({error: "Invalid  amount"});
-        }
-        const user = await User.findOne({username: username});
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-      // Update the user's total income
-      user.totalExpenses += parseFloat(amount);
-      await user.save();
-  
-      // Return a success response
-      return res.status(200).json({ message: "Expenses added successfully", data: user });
-    } catch (error) {
-      // Handle any errors
-      console.error("Error adding expenses:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-    }
-  
-
-    exports.calculateWallet = async (req, res) => {
-        const username = req.params.username; 
-      
-        try {
-          // Find the user by username
-          const user = await User.findOne({ username: username });
-          if (!user) {
-            return res.status(404).json({ error: "User not found" });
-          }
-          
-          // Calculate net income (total income - total expenses)
-          const wallet = user.totalIncome - user.totalExpenses;
-          
-          // Return the net income to the client
-          return res.status(200).json({ wallet: wallet });
-        } catch (error) {
-          // Handle any errors
-          console.error("Error calculating wallet:", error);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
-    };
-    
-  
+ 
