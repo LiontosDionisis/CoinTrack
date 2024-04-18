@@ -21,6 +21,7 @@ export class IncomeTabComponent {
   incomeAmount: number;
   incomeSource: string;
   username: string;
+  totalIncome: string;
 
   
 
@@ -29,6 +30,7 @@ export class IncomeTabComponent {
       // navigate to login page
       this.router.navigate(["/login"])
     }
+    this.totalIncome = this.authService.getTotalIncome();
   }
   onSubmit() {
     const incomeData = {

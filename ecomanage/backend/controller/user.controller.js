@@ -23,12 +23,13 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Incorrect password' });
     }
     name = user.name;
+    totalIncome = user.totalIncome;
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
     
     // Send the token and name back in the response
-    res.status(200).json({ token, name, username});
+    res.status(200).json({ token, name, username,totalIncome});
 
 
   } catch (error) {
@@ -107,7 +108,7 @@ exports.addIncome = async(req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-  
+    user.totalIncome += incomeAmount;
     user.incomeTransactions.push(newIncomeTransaction); 
 
     await user.save();

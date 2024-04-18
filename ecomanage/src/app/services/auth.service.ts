@@ -24,6 +24,10 @@ export class AuthService {
     return localStorage.getItem("name");
   }
 
+  getTotalIncome(){
+    return localStorage.getItem("totalIncome");
+  }
+
   logout(): void {
     localStorage.removeItem("authToken");
   }
