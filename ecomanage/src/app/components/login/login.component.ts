@@ -36,6 +36,8 @@ export class LoginComponent {
           localStorage.setItem("name", response.name);
           localStorage.setItem('username', this.username);
           localStorage.setItem("totalIncome", response.totalIncome);
+          localStorage.setItem("totalExpenses", response.totalExpenses);
+          localStorage.setItem("wallet", response.wallet);
         },
         error: (error) => {
           console.log("Login failed", error);

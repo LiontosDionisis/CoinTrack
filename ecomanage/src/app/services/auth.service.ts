@@ -28,8 +28,14 @@ export class AuthService {
     return localStorage.getItem("totalIncome");
   }
 
+  getTotalExpenses() {
+    return localStorage.getItem("totalExpenses");
+  }
+
+  
   logout(): void {
     localStorage.removeItem("authToken");
+    localStorage.clear()
   }
 
   isLoggedIn(): boolean {

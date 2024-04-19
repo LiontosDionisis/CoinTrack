@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,37 +8,47 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container mb-5">
-        <h2 class="text-center ">Hello {{name}}</h2>
-    </div>
-    <div class="card">
-        <div class="card-header">
-          Currently holding
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Wallet</h5>
-          <p class="card-text fs-5">0€</p>
+  <div class="container mb-5">
+    <h2 class="text-center mt-4 display-3 ">Hello {{name}}</h2>
+</div>
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    Currently Holding
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Wallet</h5>
+                    <p class="card-text fs-5">{{wallet}}€</p>
+                    <button (click)="refreshPage()" class="btn btn-outline-primary btn-sm">Refresh</button>
+                </div>
+            </div>
         </div>
-      </div>
-    <div class="card mt-4">
-        <div class="card-header">
-          For all months
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    For All Months
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Total Income</h5>
+                    <p class="card-text fs-5">{{totalIncome}}€</p>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    For All Months
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">All Expenses</h5>
+                    <p class="card-text fs-5">{{totalExpenses}}€</p>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-          <h5 class="card-title">Total income</h5>
-          <p class="card-text fs-5">0€</p>
-        </div>
-      </div>
-      <div class="card mt-4">
-        <div class="card-header">
-          For all months
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">All expenses</h5>
-          <p class="card-text fs-5">0€</p>
-        </div>
-      </div>
+    </div>
+</div>
+
       
 </body>
-</html>
+</html> 

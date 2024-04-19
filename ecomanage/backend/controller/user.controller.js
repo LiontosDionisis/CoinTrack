@@ -24,12 +24,14 @@ exports.login = async (req, res) => {
     }
     name = user.name;
     totalIncome = user.totalIncome;
+    totalExpenses = user.totalExpenses;
+    wallet = user.wallet;
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
     
     // Send the token and name back in the response
-    res.status(200).json({ token, name, username,totalIncome});
+    res.status(200).json({ token, name, username, totalIncome, totalExpenses, wallet});
 
 
   } catch (error) {
@@ -95,12 +97,53 @@ exports.delete = async(req, res) => {
     }
 }
 
+exports.addExpense = async(req, res) => {
+  const {expensesAmount, expensesSource, username} = req.body;
+  try {
+    const newExpensesTransaction = {
+      amount: expensesAmount,
+      source: expensesSource
+    }
+
+    const user = await User.findOne({username});
+    if (!user) return res.status(404).json({message: "User not found"});
+
+    user.totalExpenses += expensesAmount;
+    user.expensesTransactions.push(newExpensesTransaction);
+    wallet = user.wallet;
+    
+
+    await user.save();
+
+    res.status(201).json({message: "Expenses added", totalExpenses: user.totalExpenses, wallet});
+  } catch (error) {
+    console.log("Error adding expenses");
+    res.status(500).json({message: "Internet server error"});
+  }
+}
+
+exports.getWallet = async(req, res) => {
+  const {username} = req.body;
+  try {
+    const user = await User.findOne({username});
+
+    if(!user) return res.status(404).json({message: "User not found"});
+
+    wallet = user.wallet;
+    res.status(200).json({wallet});
+  } catch (error) {
+    console.log("Error fetching wallet", error);
+    res.status(500).json({message: "Error fetching wallet"})
+  }
+}
+
 exports.addIncome = async(req, res) => {
   const {incomeAmount, incomeSource, username} = req.body;
   try {
     const newIncomeTransaction = {
       amount: incomeAmount,
-      source: incomeSource
+      source: incomeSource,
+      createdAt: new Date()
     }
 
     const user = await User.findOne({username});
@@ -111,16 +154,34 @@ exports.addIncome = async(req, res) => {
 
     
     user.totalIncome += incomeAmount;
-    user.incomeTransactions.push(newIncomeTransaction); 
+    user.incomeTransactions.push(newIncomeTransaction);
+    wallet = user.wallet;
+   
     
 
     await user.save();
     
-    res.status(201).json({ message: 'Income transaction added successfully', totalIncome: user.totalIncome});
+    res.status(201).json({ message: 'Income transaction added successfully', totalIncome: user.totalIncome, wallet});
 
   } catch (error) {
     console.error('Error adding income transaction:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+}
+
+exports.getExpenses = async(req, res) => {
+  try {
+    const {username} = req.body;
+    const user = await User.findOne({username});
+
+    if (!user) return res.status(404).json({message:"User not found"});
+
+    const expensesTransactions = user.expensesTransactions;
+
+    res.status(200).json({expensesTransactions});
+  } catch (error) {
+    console.log("Error fetching expenses transactions");
+    res.status(500).json({message:"Error fetching transactions"});
   }
 }
 

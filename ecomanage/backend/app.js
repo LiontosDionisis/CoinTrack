@@ -15,7 +15,7 @@ mongoose.connect(process.env.DB_URI, {
 })
 .then(() => {
     console.log("Connected to Database");
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
         console.log("Server running on port: " , PORT);
     })
 })
@@ -23,10 +23,15 @@ mongoose.connect(process.env.DB_URI, {
     console.log("Error connecting to Database", err);
 });
 
-const cors = require("cors");
+ const cors = require("cors");
 app.use(cors({
     origin: 'http://localhost:4200'
 }));
+
+
+
+
+
 
 
 app.use("/api/user", user);
