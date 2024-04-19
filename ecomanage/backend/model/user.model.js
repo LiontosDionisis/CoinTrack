@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const incomeSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
-  source: { type: String, required: true }
+  source: { type: String, required: false }
 });
 
 const userSchema = new mongoose.Schema({

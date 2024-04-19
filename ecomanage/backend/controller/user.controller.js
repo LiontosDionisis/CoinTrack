@@ -108,17 +108,40 @@ exports.addIncome = async(req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    
     user.totalIncome += incomeAmount;
     user.incomeTransactions.push(newIncomeTransaction); 
+    
 
     await user.save();
-    res.status(201).json({ message: 'Income transaction added successfully' });
+    
+    res.status(201).json({ message: 'Income transaction added successfully', totalIncome: user.totalIncome});
 
   } catch (error) {
     console.error('Error adding income transaction:', error);
     res.status(500).json({ message: 'Server error' });
   }
 }
+
+exports.getIncome = async (req, res) => {
+  try {
+    const { username } = req.body;
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const incomeTransactions = user.incomeTransactions;
+    
+    res.status(200).json({ incomeTransactions });
+  } catch (error) {
+    console.error('Error fetching income:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 
 
  
