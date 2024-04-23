@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -15,9 +16,19 @@ import { AuthService } from './services/auth.service';
   providers: [AuthService]
 })
 export class AppComponent {
-  title = 'ecomanage';
+  title = 'CoinTrack';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private titleService: Title) {}
+
+
+  ngOnInit() {
+    // Change tab title dynamically
+    this.changeTabTitle('CoinTrack');
+  }
+
+  changeTabTitle(newTitle: string) {
+    this.titleService.setTitle(newTitle);
+  }
 
  
 
