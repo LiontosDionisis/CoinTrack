@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    // Check if the user is logged in (if the is a token in local storage)
+    // Check if the user is logged in (if there is a token in local storage)
     return !!localStorage.getItem("authToken");
   }
 }

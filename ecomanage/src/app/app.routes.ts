@@ -4,8 +4,8 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { IncomeTabComponent } from './components/income-tab/income-tab.component';
 import { ExpensesTabComponent } from './components/expenses-tab/expenses-tab.component';
-import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
+
 
 
 export const routes: Routes = [

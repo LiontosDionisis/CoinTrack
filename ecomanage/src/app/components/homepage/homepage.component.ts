@@ -21,7 +21,6 @@ export class HomepageComponent {
   totalIncome: string;
   totalExpenses: string;
   wallet: string;
-
   ngOnInit(): void {
     if (!this.authService.isLoggedIn()) {
       // navigate to login page
@@ -32,6 +31,7 @@ export class HomepageComponent {
     this.totalExpenses = this.authService.getTotalExpenses();
     this.fetchWallet();
     this.wallet = localStorage.getItem("wallet"); 
+
   }
 
   fetchWallet() {
@@ -50,5 +50,6 @@ export class HomepageComponent {
   refreshPage() {
     window.location.reload();
   }
+
  
 }

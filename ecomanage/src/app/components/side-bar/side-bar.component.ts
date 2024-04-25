@@ -34,7 +34,6 @@ export class SideBarComponent {
     {text: "Home", routerLink: "/homepage"},
     {text: "Income", routerLink: "/income"},
     {text: "Expenses", routerLink: "/expenses"},
-    {text: "Logout", routerLink: "/logout"}
-    
+    {text: "Logout", routerLink: "/logout"},    
   ]
 }

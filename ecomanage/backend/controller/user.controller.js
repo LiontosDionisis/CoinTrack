@@ -4,7 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 const secretKey = process.env.JWT_SECRET;
+
 
 
 exports.login = async (req, res) => {
@@ -202,7 +204,6 @@ exports.getIncome = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 
 
  

@@ -1,5 +1,4 @@
-
-
+<!-- 
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,4 +50,51 @@
 
       
 </body>
-</html> 
+</html>  
+
+
+  
+
+   -->
+
+
+   <div class="container mt-5">
+    <h2 class="text-center mb-4">Welcome, {{name}}!</h2>
+  </div>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card bg-light mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Current Wallet Balance</h5>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title text-primary">{{wallet}}€</h2>
+            <button (click)="refreshPage()" class="btn btn-primary btn-block">Refresh</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card bg-light mb-4">
+          <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Total Income</h5>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title text-success">{{totalIncome}}€</h2>
+          </div>
+        </div>
+        <div class="card bg-light mb-4">
+          <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">Total Expenses</h5>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title text-danger">{{totalExpenses}}€</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  

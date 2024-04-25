@@ -7,7 +7,7 @@ body {
 
 
 .page-background {
-    background: linear-gradient(to bottom, #5a4d9b, #000000);
+    background: linear-gradient(to bottom, #4cadda, #000000);
     /* Other background styles */
     width: 100%;
     height: 100vh; /* Set the height to 100vh to cover the entire viewport height */

@@ -61,13 +61,26 @@ export class IncomeTabComponent {
     );
   }
 
+  // getIncome(username: string) {
+  //   this.incomeService.getIncome(username).subscribe(
+  //     response => {
+  //       this.incomeTransactions = response.incomeTransactions;
+  //     },
+  //     error => {
+  //       console.log("Error fetching transacions");
+  //     }
+  //   )
+  // }
+
   getIncome(username: string) {
     this.incomeService.getIncome(username).subscribe(
       response => {
-        this.incomeTransactions = response.incomeTransactions;
+        console.log('Raw transactions:', response.incomeTransactions);
+        this.groupTransactionsByMonth(response.incomeTransactions);
+        console.log('Grouped transactions:', this.incomeTransactions);
       },
       error => {
-        console.log("Error fetching transacions");
+        console.log("Error fetching transactions");
       }
     )
   }
@@ -82,6 +95,37 @@ export class IncomeTabComponent {
       transactions.classList.add("hide");
     }
   }
+
+  
+  private groupTransactionsByMonth(transactions: any[]): void {
+    transactions.forEach(transaction => {
+      // Get the month and year from the transaction's createdAt date
+      const createdAt = new Date(transaction.createdAt);
+      const month = createdAt.getMonth() + 1; // Add 1 to convert to one-based index
+      const year = createdAt.getFullYear();
+      // Create a key using month and year
+      const key = `${month}-${year}`;
+      
+      // Initialize an array for the month if it doesn't exist yet
+      if (!this.incomeTransactions[key]) {
+        this.incomeTransactions[key] = [];
+      }
+      // Push the transaction to the corresponding month array
+      this.incomeTransactions[key].push(transaction);
+    });
+  }
+
+  visibleMonths: string[] = [];
+
+toggleVisibility(month: string): void {
+  if (this.visibleMonths.includes(month)) {
+    this.visibleMonths = this.visibleMonths.filter(m => m !== month);
+  } else {
+    this.visibleMonths.push(month);
+  }
+}
+
+  
 
 }
 

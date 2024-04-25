@@ -30,10 +30,6 @@ app.use(cors({
 
 
 
-
-
-
-
 app.use("/api/user", user);
 
 module.exports = app;
