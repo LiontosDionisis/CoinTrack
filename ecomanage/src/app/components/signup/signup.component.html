@@ -17,10 +17,10 @@
       <div class="row justify-content-center">
         <div class="col-md-6 ">
           <div class="text-center">
-            <span class="text-shadow text-light  fs-3 mb-4">Don't lose track of your expenses. Sign up for free today!!</span>
+            <span class="text-dark  fs-3 mb-4">Don't lose track of your expenses. Sign up today!!</span>
           </div>
  
-          <form (submit)="onSubmit($event)">
+          <form class="mt-4" (submit)="onSubmit($event)">
             <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
       
@@ -44,10 +44,10 @@
               <label class="form-label text-light" for="password">Password</label>
               <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password" [(ngModel)]="formData.password">
             </div>
-            <!-- Add confirm password field if needed -->
-            <div class="mb-3 text-center">
-              <button type="submit" class="btn btn-primary">Sign-up</button>
+            <div class="mb-3">
+              <button type="submit" class="btn btn-dark">Sign-up</button>
             </div>
+            <div class="mt-3 text-white"><span>Already have an accont? Login <a href="/login" class="text-white">Here</a></span></div>
           </form>
         </div>
       </div>
