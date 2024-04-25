@@ -66,7 +66,7 @@
   </div>
 </div>  -->
 
-<div id="transactions" class="card mt-4" style="height: 300px; overflow-y: auto;">
+<div id="transactions" class="card mt-4 border-0" style="height: 300px; overflow-y: auto;">
   <ng-container *ngFor="let monthTransactions of incomeTransactions | keyvalue">
     <!-- Group header with month name -->
     <div class="card-header bg-success text-white" (click)="toggleVisibility(monthTransactions.key)">

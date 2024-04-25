@@ -39,7 +39,7 @@
 
 <button class="hide-btn btn btn-outline-primary btn-sm mb-4" (click)="showTransactions()">Show Past Transactions</button>
 
-<div id="transactions" class="card mt-4" style="height: 300px; overflow-y: auto;">
+<div id="transactions" class="card mt-4 border-0" style="height: 300px; overflow-y: auto;">
   <ng-container *ngFor="let monthTransactions of expensesTransactions | keyvalue">
     <!-- Group header with month name -->
     <div class="card-header bg-danger text-white" (click)="toggleVisibility(monthTransactions.key)">
