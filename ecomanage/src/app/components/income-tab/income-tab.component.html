@@ -69,7 +69,7 @@
 <div id="transactions" class="card mt-4 border-0" style="height: 300px; overflow-y: auto;">
   <ng-container *ngFor="let monthTransactions of incomeTransactions | keyvalue">
     <!-- Group header with month name -->
-    <div class="card-header bg-success text-white" (click)="toggleVisibility(monthTransactions.key)">
+    <div class="card-header bg-success text-white" (click)="toggleVisibility(monthTransactions.key)">click to expand
       <h2 class="mb-0">{{ monthTransactions.key }}</h2>
     </div>
     <!-- Transactions for the month -->
