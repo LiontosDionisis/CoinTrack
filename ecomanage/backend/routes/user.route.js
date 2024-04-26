@@ -3,6 +3,8 @@ const User = require("../model/user.model");
 const router = express.Router();
 
 userController = require("../controller/user.controller");
+
+router.post("/updateName", userController.updateName);
 router.post("/getWallet", userController.getWallet);
 router.post("/getExpenses", userController.getExpenses)
 router.post("/getIncome", userController.getIncome);

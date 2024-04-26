@@ -5,6 +5,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { IncomeTabComponent } from './components/income-tab/income-tab.component';
 import { ExpensesTabComponent } from './components/expenses-tab/expenses-tab.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 
 
@@ -16,5 +17,6 @@ export const routes: Routes = [
     {path: "income", component: IncomeTabComponent,},
     {path: "expenses", component: ExpensesTabComponent,},
     {path: "total", component: HomepageComponent},
-    {path: "logout", component: LogoutComponent}
+    {path: "logout", component: LogoutComponent},
+    {path: "settings", component: SettingsComponent}
 ];

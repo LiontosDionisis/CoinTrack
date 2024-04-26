@@ -7,19 +7,39 @@ require('dotenv').config();
 
 const secretKey = process.env.JWT_SECRET;
 
+exports.updateName = async(req, res) => {
+  const {username, name} = req.body;
+
+  try {
+    const user = await User.findOne({username});
+    if (!user) {
+      return res.status(404).json({error: "Username not found"});
+    }
+
+    await User.updateOne(
+      {username},
+      {$set: {name: name}}
+    )
+
+    res.status(200).json({name});
+    console.log("Name updated");
+  } catch (error) {
+    console.log("Error updating name")
+    res.status(500).json({error: "Internal server error"});
+  }
+}
+
 
 
 exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Check if the username exists in the database
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(404).json({ error: 'Username not found' });
     }
 
-    // Verify the password
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
@@ -31,8 +51,7 @@ exports.login = async (req, res) => {
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
-    
-    // Send the token and name back in the response
+  
     res.status(200).json({ token, name, username, totalIncome, totalExpenses, wallet});
 
 
@@ -45,20 +64,17 @@ exports.login = async (req, res) => {
 
 
 exports.create = async (req, res) => {
-  // Validate user input
   const { error } = registerValidation(req.body);
   if (error) {
       return res.status(400).json({ error: error.details[0].message });
   }
 
   try {
-      // Check if email already exists
       const emailExists = await User.findOne({ email: req.body.email });
       if (emailExists) {
           return res.status(400).json({ error: 'Email already exists' });
       }
 
-      // Check if username already exists
       const usernameExists = await User.findOne({ username: req.body.username });
       if (usernameExists) {
           return res.status(400).json({ error: 'Username already taken' });
@@ -66,7 +82,6 @@ exports.create = async (req, res) => {
       
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-      // Create a new user
       const newUser = new User({
           name: req.body.name,
           username: req.body.username,
@@ -74,7 +89,6 @@ exports.create = async (req, res) => {
           email: req.body.email
       });
 
-      // Save the user to the database
       const savedUser = await newUser.save();
       res.status(200).json({ data: savedUser });
   } catch (err) {

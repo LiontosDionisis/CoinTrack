@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="incomeAmount">Amount:</label>
+        <label for="incomeAmount" class="fs-4 display-1 ">Amount:</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">€</span>
@@ -27,7 +27,7 @@
     </div>
     <div class="col-md-6">
       <div class="form-group">
-        <label for="incomeSource">Comment:</label>
+        <label for="incomeSource" class="fs-4 display-1 ">Comment:</label>
         <input type="text" class="form-control" id="incomeSource" name="incomeSource" [(ngModel)]="incomeSource" required>
         <div class="invalid-feedback">
           Please provide the income source.
@@ -39,32 +39,6 @@
 </form>
 
 <button class="hide-btn btn btn-outline-success  btn-sm" (click)="showTransactions()">Show Past Transactions</button>
-
-<!-- <div id="transactions" class="card mt-4" style="height: 300px; overflow-y: auto;" >
-  <div class="card-header bg-success  text-white">
-    <h2 class="mb-0">Income Transactions</h2>
-  </div>
-  <div class="card-body transactions">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Amount</th>
-            <th>Comment</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let transaction of incomeTransactions">
-            <td>{{ transaction.amount }} €</td>
-            <td>{{ transaction.source }}</td>
-            <td>{{ transaction.createdAt | date: 'medium' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>  -->
 
 <div id="transactions" class="card mt-4 border-0" style="height: 300px; overflow-y: auto;">
   <ng-container *ngFor="let monthTransactions of incomeTransactions | keyvalue">
