@@ -44,6 +44,8 @@
     <!-- Group header with month name -->
     <div class="card-header bg-danger text-white" (click)="toggleVisibility(monthTransactions.key)"> click to expand
       <h2 class="mb-0">{{ monthTransactions.key }}</h2>
+      <!-- Display total expenses for the month -->
+      <p>Total Expenses: {{ getTotalExpenses(monthTransactions.value) }} €</p>
     </div>
     <!-- Transactions for the month -->
     <div class="card-body transactions" [hidden]="!visibleMonths.includes(monthTransactions.key)">
@@ -68,6 +70,7 @@
     </div>
   </ng-container>
 </div>
+
 
 
  

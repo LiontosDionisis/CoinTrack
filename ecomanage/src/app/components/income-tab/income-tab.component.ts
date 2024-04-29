@@ -25,6 +25,7 @@ export class IncomeTabComponent {
   totalIncome: string;
   incomeTransactions: any[] = [];
   userId = this.authService.getUserIdFromToken();
+  totalIncomeByMonth: { [key: string]: number } = {};
 
 
   
@@ -35,8 +36,8 @@ export class IncomeTabComponent {
       this.router.navigate(["/login"])
     }
     this.totalIncome = this.authService.getTotalIncome();
-    this.username = localStorage.getItem("username");
-
+    //this.username = localStorage.getItem("username");
+    this.calculateTotalIncomeByMonth();
     this.getIncome(this.username);
     
   }
@@ -89,7 +90,6 @@ export class IncomeTabComponent {
     }
   }
 
-  
   private groupTransactionsByMonth(transactions: any[]): void {
     transactions.forEach(transaction => {
       // Get the month and year from the transaction's createdAt date
@@ -105,9 +105,26 @@ export class IncomeTabComponent {
       }
       // Push the transaction to the corresponding month array
       this.incomeTransactions[key].push(transaction);
+      
+      // Calculate total income for the month
+      const monthlyTotalIncome = this.incomeTransactions[key].reduce((total, t) => total + t.amount, 0);
+      this.totalIncomeByMonth[key] = monthlyTotalIncome;
     });
   }
 
+  calculateTotalIncomeByMonth(): void {
+    this.totalIncomeByMonth = {};
+    Object.keys(this.incomeTransactions).forEach(key => {
+      const monthTransactions = this.incomeTransactions[key];
+      const totalIncome = monthTransactions.reduce((total, transaction) => total + transaction.amount, 0);
+      this.totalIncomeByMonth[key] = totalIncome;
+    });
+  }
+
+  handleIncomeTransactionsChange(): void {
+  this.calculateTotalIncomeByMonth();
+  }
+  
   visibleMonths: string[] = [];
 
 toggleVisibility(month: string): void {

@@ -24,6 +24,10 @@ export class ExpensesTabComponent {
   expensesTransactions: any[] = [];
   wallet: string;
   userId: string;
+  totalExpensesByMonth: { [key: string]: number } = {};
+  expensesByMonth: { [key: string]: any[] } = {};
+
+
 
   
   ngOnInit(): void {
@@ -47,7 +51,7 @@ export class ExpensesTabComponent {
 
     this.expensesService.addExpense(expensesData).subscribe(
       response => {
-        console.log("Expenses added!", response,this.username),
+        console.log("Expenses added!"),
         this.expensesAmount = null;
         this.expensesSource = null;
         this.totalExpenses = this.authService.getTotalExpenses()
@@ -83,6 +87,32 @@ export class ExpensesTabComponent {
       transactions.classList.add("hide");
     }
   }
+
+  // private groupTransactionsByMonth(transactions: any[]): void {
+  //   this.expensesByMonth = {}; // Reset the expensesTransactions object before grouping
+  
+  //   transactions.forEach(transaction => {
+  //     const createdAt = new Date(transaction.createdAt);
+  //     const month = createdAt.getMonth() + 1; 
+  //     const year = createdAt.getFullYear();
+  //     const key = `${month}-${year}`;
+      
+  //     if (!this.expensesTransactions[key]) {
+  //       this.expensesTransactions[key] = [];
+  //     }
+  //     this.expensesTransactions[key].push(transaction);
+  //   });
+  // }
+  
+
+getTotalExpenses(transactions: any[]): number {
+  let totalExpenses = 0;
+  transactions.forEach(transaction => {
+    totalExpenses += transaction.amount;
+  });
+  return totalExpenses;
+}
+
 
   private groupTransactionsByMonth(transactions: any[]): void {
     transactions.forEach(transaction => {
