@@ -1,16 +1,11 @@
-<!-- 
+
+<div class="main-container">
   <div class="d-flex flex-row gap-2">
-    <div class="w-25" *ngIf="isHomePageRoute()">
-        <app-homepage></app-homepage>
-    </div>
-    <div class="flex-grow-1 p-2 text-nowrap w-75">
-        <router-outlet></router-outlet>
-    </div>
-</div>
- -->
- <div class="d-flex flex-row gap-2">
     <app-side-bar></app-side-bar>
- </div>
-<div class="container">
-  <router-outlet></router-outlet>
+  </div>
+  <div class="content-container">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

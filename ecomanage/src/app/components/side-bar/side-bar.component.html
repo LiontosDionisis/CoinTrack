@@ -9,7 +9,7 @@
 <body>
     <div  class="list-group w-100 p-4" *ngIf="isSideBarVisible()"  >
         @for(entry of menu; track entry;) {
-            <a class="sidebar list-group-item list-group-item-action text-truncate list-group-item-info  "
+            <a class="sidebar list-group-item list-group-item-action text-truncate list-group-item-info sidebar-background"
             [routerLink]="entry.routerLink"
             [routerLinkActive]="['active']">
                 {{entry.text}}

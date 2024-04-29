@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="card mb-4 mx-auto" style="max-width: 500px;">
   <div class="card-header fs-3 bg-success text-white">
     Total income
@@ -8,46 +8,46 @@
   </div>
 </div>
 
-
-<form (ngSubmit)="onSubmit()" class="needs-validation mb-4" novalidate>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="incomeAmount" class="fs-4 display-1 ">Amount:</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">€</span>
+<div>
+  <form (ngSubmit)="onSubmit()" class="needs-validation mb-4 bg-color" novalidate>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="incomeAmount" class="fs-4 display-1 ">Amount:</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">€</span>
+            </div>
+            <input type="number" class="form-control" id="incomeAmount" name="incomeAmount" [(ngModel)]="incomeAmount" required>
+            <div class="invalid-feedback">
+              Please provide the income amount.
+            </div>
           </div>
-          <input type="number" class="form-control" id="incomeAmount" name="incomeAmount" [(ngModel)]="incomeAmount" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="incomeSource" class="fs-4 display-1 ">Comment:</label>
+          <input type="text" class="form-control" id="incomeSource" name="incomeSource" [(ngModel)]="incomeSource" required>
           <div class="invalid-feedback">
-            Please provide the income amount.
+            Please provide the income source.
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="incomeSource" class="fs-4 display-1 ">Comment:</label>
-        <input type="text" class="form-control" id="incomeSource" name="incomeSource" [(ngModel)]="incomeSource" required>
-        <div class="invalid-feedback">
-          Please provide the income source.
-        </div>
-      </div>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-success  mt-2">Add</button>
-</form>
+    <button type="submit" class="btn btn-success  mt-2">Add</button>
+  </form>
+</div>
+
 
 <button class="hide-btn btn btn-outline-success  btn-sm" (click)="showTransactions()">Show Past Transactions</button>
 
-<div id="transactions" class="card mt-4 border-0" style="height: 300px; overflow-y: auto;">
+<div id="transactions" class="card mt-4 border-0 bg-color" style="height: 300px; overflow-y: auto;">
   <ng-container *ngFor="let monthTransactions of incomeTransactions | keyvalue">
-    <!-- Group header with month name and total income -->
     <div class="card-header bg-success text-white" (click)="toggleVisibility(monthTransactions.key)">
       <h2 class="mb-0">{{ monthTransactions.key }}</h2>
       <p>Total Income: {{ totalIncomeByMonth[monthTransactions.key] }} €</p>
     </div>
-    <!-- Transactions for the month -->
     <div class="card-body transactions" [hidden]="!visibleMonths.includes(monthTransactions.key)">
       <div class="table-responsive">
         <table class="table table-striped">
@@ -78,4 +78,85 @@
 
 
 
- 
+  -->
+
+  <div class="container">
+    <div class="row">
+      <!-- Total Income Card -->
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header fs-3 bg-success text-white">
+            Total income
+          </div>
+          <div class="card-body text-center">
+            <p class="card-text fs-3">{{(+totalIncome || 0).toFixed(2) }}€</p>
+          </div>
+        </div>
+        <!-- Form -->
+        <form (ngSubmit)="onSubmit()" class="needs-validation mb-4 bg-color" novalidate>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="incomeAmount" class="fs-4 display-1 ">Amount:</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">€</span>
+                  </div>
+                  <input type="number" class="form-control" id="incomeAmount" name="incomeAmount" [(ngModel)]="incomeAmount" required>
+                  <div class="invalid-feedback">
+                    Please provide the income amount.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="incomeSource" class="fs-4 display-1 ">Comment:</label>
+                <input type="text" class="form-control" id="incomeSource" name="incomeSource" [(ngModel)]="incomeSource" required>
+                <div class="invalid-feedback">
+                  Please provide the income source.
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success mt-2">Add</button>
+        </form>
+        <button class="hide-btn btn btn-outline-success  btn-sm" (click)="showTransactions()">Show Past Transactions</button> 
+      </div>
+      <!-- Transactions Section -->
+      <div class="col-md-8">
+        <div id="transactions" class="card mt-4 border-0 bg-color hide" style="height: 300px; overflow-y: auto;">
+          <ng-container *ngFor="let monthTransactions of incomeTransactions | keyvalue">
+            <!-- Group header with month name and total income -->
+            <div class="card-header bg-success text-white" (click)="toggleVisibility(monthTransactions.key)">
+              click to expand
+              <h2 class="mb-0">{{ monthTransactions.key }}</h2>
+              <p>Total Income: {{ totalIncomeByMonth[monthTransactions.key] }} €</p>
+            </div>
+            <!-- Transactions for the month -->
+            <div class="card-body transactions" [hidden]="!visibleMonths.includes(monthTransactions.key)">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Amount</th>
+                      <th>Comment</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let transaction of monthTransactions.value">
+                      <td>{{ transaction.amount }} €</td>
+                      <td>{{ transaction.source }}</td>
+                      <td>{{ transaction.createdAt | date: 'medium' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  
