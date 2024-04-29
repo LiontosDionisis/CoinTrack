@@ -1,19 +1,43 @@
-<h1 class="text-center display-2 mb-4">Settings</h1>
-<h4 class="text-center  mt-2">After any change, you will be logged out.</h4>
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Update Name</h1>
-    <div class="row justify-content-center">
+ <div class="container mt-5">
+    <h1 class="text-center display-2 mb-4">Settings</h1>
+    <h4 class="text-center mt-2">After any change, you will be logged out.</h4>
+
+    <div class="row justify-content-center mt-5">
         <div class="col-md-8">
+            <h2 class="text-center mb-4">Change Name</h2>
             <form #updateNameForm="ngForm" class="needs-validation" novalidate (submit)="onSubmitName(updateNameForm)">
                 <div class="form-group">
                     <label for="newName">New Name:</label>
                     <input [(ngModel)]="nameForm.name"  type="text" class="form-control" id="newName" name="newName" placeholder="Enter your new name" required>
                     <div class="invalid-feedback">Please enter your new name.</div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block mt-2">Submit changes</button>
+                <button type="submit" class="btn btn-primary btn-block mt-2" [disabled]="!nameForm.name">Submit changes</button>
             </form>
         </div>
     </div>
-</div>
 
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">Change Username</h2>
+            <form #updateUsernameForm="ngForm" class="needs-validation" novalidate (submit)="onSubmitUsername(updateUsernameForm)"> 
+                <div class="form-group">
+                    <label for="newUsername">New Username:</label>
+                    <input type="text" [(ngModel)]="usernameForm.username" class="form-control" id="newUsername" name="newUsername" placeholder="Enter your new username" required>
+                    <div class="invalid-feedback">Please enter your new username</div>
+                    <!-- Alert message -->
+                    <div *ngIf="usernameTaken" class="alert alert-danger mt-2" role="alert">
+                        Username is already taken. Please choose a different one.
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-2" [disabled]="!usernameForm.username">Submit changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <button id="dltBtn" (click)="deleteAccount()" class="btn btn-danger btn-md btn-block">Delete my account</button>
+        </div>
+    </div>
+</div>

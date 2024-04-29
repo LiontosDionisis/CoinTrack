@@ -29,6 +29,25 @@ exports.updateName = async (req, res) => {
   }
 };
 
+exports.updateUsername = async(req, res) => {
+  const { userId, username} = req.body;
+  if (!userId) {
+    return res.status(404).json({error: "User ID not found"})
+  }
+  try {
+    await User.updateOne(
+      {_id: userId},
+      {$set: {username: username}}
+    );
+
+    res.status(200).json({username});
+    console.log("Username updated");
+  } catch (error) {
+    res.status(500).json({error: "Internal server error"});
+    console.log("Error updating username, username already exists?");
+  }
+}
+
 
 exports.login = async (req, res) => {
   const { username, password } = req.body;
@@ -99,11 +118,11 @@ exports.create = async (req, res) => {
 
 
 exports.delete = async(req, res) => {
-    const {userId} = req.body;
+    const userId = req.params.userId;
 
     try {
         const user= await User.findOne({_id: userId});
-        if(!usern) return res.status(404).send("User not found")
+        if(!user) return res.status(404).send("User not found")
         const result = await User.findOneAndDelete({_id: userId})
         res.status(200).json({data:result});
         console.log("User deleted");
