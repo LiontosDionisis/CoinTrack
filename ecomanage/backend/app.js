@@ -26,6 +26,7 @@ mongoose.connect(process.env.DB_URI, {
  const cors = require("cors");
 app.use(cors({
     origin: 'http://localhost:4200'
+    //origin: 'http://192.168.1.101:4200'
 }));
 
 
