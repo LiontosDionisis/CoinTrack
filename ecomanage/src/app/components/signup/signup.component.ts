@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -10,10 +11,17 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [HttpClientModule, FormsModule, CommonModule ],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+  styleUrl: './signup.component.css',
+  providers: [AuthService]
 })
 export class SignupComponent {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(["/homepage"])
+    }
+  }
 
   errorMessage: string;
   
@@ -50,7 +58,7 @@ export class SignupComponent {
       },
       (error) => {
         console.log("Error during registration", error);
-        this.errorMessage = error.error.error; // Assuming the error message is returned in the 'error' field
+        this.errorMessage = error.error.error; 
       }
     );
     this.router.navigate(['/login']);

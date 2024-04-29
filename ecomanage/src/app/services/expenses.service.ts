@@ -15,7 +15,7 @@ export class ExpensesService {
     return this.http.post<any>(`${this.apiUrl}/addExpense`, expensesData);
   }
 
-  getExpenses(username: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/getExpenses`, {username})
+  getExpenses(userId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/getExpenses`, {userId})
   }
 }

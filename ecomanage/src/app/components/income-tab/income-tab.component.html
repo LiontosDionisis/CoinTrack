@@ -4,7 +4,7 @@
     Total income
   </div>
   <div class="card-body text-center">
-    <p class="card-text fs-3">{{ totalIncome }}€</p>
+    <p class="card-text fs-3">{{(+totalIncome || 0).toFixed(2) }}€</p>
   </div>
 </div>
 

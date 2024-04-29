@@ -22,10 +22,17 @@ export class LoginComponent {
     private router: Router
   ) {}
 
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/homepage']);
+    }
+  }
+
   
     username: string;
     password: string;
     errorMessage: string;
+
 
     login(): void {
       this.authService.login(this.username, this.password).subscribe({

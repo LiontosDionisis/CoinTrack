@@ -23,6 +23,7 @@ export class ExpensesTabComponent {
   totalExpenses: string;
   expensesTransactions: any[] = [];
   wallet: string;
+  userId: string;
 
   
   ngOnInit(): void {
@@ -34,14 +35,14 @@ export class ExpensesTabComponent {
     this.username = localStorage.getItem("username");
     
 
-    this.getExpenses(this.username);
+    this.getExpenses(this.userId);
   }
 
   onSubmit() {
     const expensesData = {
       expensesAmount : this.expensesAmount,
       expensesSource: this.expensesSource,
-      username: localStorage.getItem("username")
+      userId: this.authService.getUserIdFromToken()
     };
 
     this.expensesService.addExpense(expensesData).subscribe(
@@ -60,11 +61,12 @@ export class ExpensesTabComponent {
     )
   }
 
-  getExpenses(username:string) {
-    this.expensesService.getExpenses(username).subscribe(
+  getExpenses(userId:string) {
+    userId = this.authService.getUserIdFromToken();
+    this.expensesService.getExpenses(userId).subscribe(
       response => {
         this.groupTransactionsByMonth(response.expensesTransactions)
-        console.log(username);
+        console.log(userId);
       },
       error => {
         console.log("Error fetching transactions");
@@ -84,18 +86,14 @@ export class ExpensesTabComponent {
 
   private groupTransactionsByMonth(transactions: any[]): void {
     transactions.forEach(transaction => {
-      // Get the month and year from the transaction's createdAt date
       const createdAt = new Date(transaction.createdAt);
-      const month = createdAt.getMonth() + 1; // Add 1 to convert to one-based index
+      const month = createdAt.getMonth() + 1; 
       const year = createdAt.getFullYear();
-      // Create a key using month and year
       const key = `${month}-${year}`;
       
-      // Initialize an array for the month if it doesn't exist yet
       if (!this.expensesTransactions[key]) {
         this.expensesTransactions[key] = [];
       }
-      // Push the transaction to the corresponding month array
       this.expensesTransactions[key].push(transaction);
     });
   }

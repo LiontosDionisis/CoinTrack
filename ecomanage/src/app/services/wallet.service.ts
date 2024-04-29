@@ -11,9 +11,7 @@ export class WalletService {
 
   constructor(private http: HttpClient) { }
 
-  getWallet(username: string): Observable<any> {
-    const body = {username: username};
-
-    return this.http.post<any>(`${this.apiUrl}/getWallet`, body);
+  getWallet(userId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/getWallet`, {userId});
   }
 }

@@ -35,9 +35,9 @@ export class HomepageComponent {
   }
 
   fetchWallet() {
-    const username = localStorage.getItem("username");
+    const userId = this.authService.getUserIdFromToken();
   
-    this.walletService.getWallet(username).subscribe(
+    this.walletService.getWallet(userId).subscribe(
       (response: any) => {
         localStorage.setItem("wallet", response.wallet);
       },

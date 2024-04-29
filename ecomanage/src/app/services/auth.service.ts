@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, catchError, throwError } from 'rxjs';
 
 
@@ -9,8 +10,8 @@ import { Observable, catchError, throwError } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:5000/api/user';
-
-  constructor(private http: HttpClient) {}
+  
+  constructor(private http: HttpClient, private router : Router) {}
 
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, {username, password}).pipe(
@@ -18,6 +19,18 @@ export class AuthService {
         return throwError(error);
       })
     )
+  }
+
+  
+  getUserIdFromToken(): string | null {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      const [, payloadBase64] = token.split('.');
+      const payload = JSON.parse(atob(payloadBase64));
+      return payload.userId;
+    } else {
+      return null;
+    }
   }
 
   getName() {
@@ -36,10 +49,16 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem("authToken");
     localStorage.clear()
+    this.router.navigate(["/login"]);
   }
 
   isLoggedIn(): boolean {
     // Check if the user is logged in (if there is a token in local storage)
     return !!localStorage.getItem("authToken");
   }
+
+  updateName(formData: any) {
+    return this.http.post<any>(`${this.apiUrl}/updateName`, formData);
+  }
+
 }

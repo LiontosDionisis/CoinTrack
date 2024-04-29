@@ -14,7 +14,7 @@ export class IncomeServiceService {
     return this.http.post<any>(`${this.apiUrl}/addIncome`, incomeData);
   }
 
-  getIncome(username: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/getIncome`, { username });
+  getIncome(userId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/getIncome`, { userId});
   }
 }

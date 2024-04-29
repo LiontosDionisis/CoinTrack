@@ -24,6 +24,7 @@ export class IncomeTabComponent {
   username: string;
   totalIncome: string;
   incomeTransactions: any[] = [];
+  userId = this.authService.getUserIdFromToken();
 
 
   
@@ -43,7 +44,7 @@ export class IncomeTabComponent {
     const incomeData = {
       incomeAmount: this.incomeAmount,
       incomeSource: this.incomeSource,
-      username: localStorage.getItem('username')
+      userId : this.userId
     };
 
     this.incomeService.addIncome(incomeData).subscribe(
@@ -61,19 +62,11 @@ export class IncomeTabComponent {
     );
   }
 
-  // getIncome(username: string) {
-  //   this.incomeService.getIncome(username).subscribe(
-  //     response => {
-  //       this.incomeTransactions = response.incomeTransactions;
-  //     },
-  //     error => {
-  //       console.log("Error fetching transacions");
-  //     }
-  //   )
-  // }
 
-  getIncome(username: string) {
-    this.incomeService.getIncome(username).subscribe(
+
+  getIncome(userId: string) {
+    userId = this.userId;
+    this.incomeService.getIncome(userId).subscribe(
       response => {
         console.log('Raw transactions:', response.incomeTransactions);
         this.groupTransactionsByMonth(response.incomeTransactions);

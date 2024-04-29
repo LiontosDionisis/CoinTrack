@@ -7,28 +7,27 @@ require('dotenv').config();
 
 const secretKey = process.env.JWT_SECRET;
 
-exports.updateName = async(req, res) => {
-  const {username, name} = req.body;
+
+
+exports.updateName = async (req, res) => {
+  const { userId, name } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
 
   try {
-    const user = await User.findOne({username});
-    if (!user) {
-      return res.status(404).json({error: "Username not found"});
-    }
-
     await User.updateOne(
-      {username},
-      {$set: {name: name}}
-    )
+      { _id: userId }, 
+      { $set: { name: name } }
+    );
 
-    res.status(200).json({name});
+    res.status(200).json({ name });
     console.log("Name updated");
   } catch (error) {
-    console.log("Error updating name")
-    res.status(500).json({error: "Internal server error"});
+    console.log("Error updating name:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-}
-
+};
 
 
 exports.login = async (req, res) => {
@@ -100,12 +99,12 @@ exports.create = async (req, res) => {
 
 
 exports.delete = async(req, res) => {
-    const username = req.params.username;
+    const {userId} = req.body;
 
     try {
-        const usernameExists = await User.findOne({username: req.params.username});
-        if(!usernameExists) return res.status(404).send("Username not found")
-        const result = await User.findOneAndDelete({username: username})
+        const user= await User.findOne({_id: userId});
+        if(!usern) return res.status(404).send("User not found")
+        const result = await User.findOneAndDelete({_id: userId})
         res.status(200).json({data:result});
         console.log("User deleted");
     } catch(err) {
@@ -114,17 +113,17 @@ exports.delete = async(req, res) => {
 }
 
 exports.addExpense = async(req, res) => {
-  const {expensesAmount, expensesSource, username} = req.body;
+  const {expensesAmount, expensesSource, userId} = req.body;
   try {
     const newExpensesTransaction = {
       amount: expensesAmount,
       source: expensesSource
     }
 
-    const user = await User.findOne({username});
+    const user = await User.findOne({_id: userId});
     if (!user) return res.status(404).json({message: "User not found"});
 
-    user.totalExpenses += expensesAmount;
+    user.totalExpenses += parseFloat(expensesAmount);
     user.expensesTransactions.push(newExpensesTransaction);
     wallet = user.wallet;
     
@@ -139,9 +138,9 @@ exports.addExpense = async(req, res) => {
 }
 
 exports.getWallet = async(req, res) => {
-  const {username} = req.body;
+  const {userId} = req.body;
   try {
-    const user = await User.findOne({username});
+    const user = await User.findOne({_id: userId});
 
     if(!user) return res.status(404).json({message: "User not found"});
 
@@ -154,7 +153,7 @@ exports.getWallet = async(req, res) => {
 }
 
 exports.addIncome = async(req, res) => {
-  const {incomeAmount, incomeSource, username} = req.body;
+  const {incomeAmount, incomeSource, userId} = req.body;
   try {
     const newIncomeTransaction = {
       amount: incomeAmount,
@@ -162,14 +161,14 @@ exports.addIncome = async(req, res) => {
       createdAt: new Date()
     }
 
-    const user = await User.findOne({username});
+    const user = await User.findOne({_id: userId});
   
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     
-    user.totalIncome += incomeAmount;
+    user.totalIncome += parseFloat(incomeAmount);
     user.incomeTransactions.push(newIncomeTransaction);
     wallet = user.wallet;
    
@@ -187,8 +186,8 @@ exports.addIncome = async(req, res) => {
 
 exports.getExpenses = async(req, res) => {
   try {
-    const {username} = req.body;
-    const user = await User.findOne({username});
+    const {userId} = req.body;
+    const user = await User.findOne({_id : userId});
 
     if (!user) return res.status(404).json({message:"User not found"});
 
@@ -203,8 +202,8 @@ exports.getExpenses = async(req, res) => {
 
 exports.getIncome = async (req, res) => {
   try {
-    const { username } = req.body;
-    const user = await User.findOne({ username });
+    const { userId } = req.body;
+    const user = await User.findOne({ _id : userId });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
