@@ -4,6 +4,7 @@ const router = express.Router();
 
 userController = require("../controller/user.controller");
 
+router.post("/updatePassword", userController.updatePassword);
 router.post("/updateUsername", userController.updateUsername);
 router.post("/updateName", userController.updateName);
 router.post("/getWallet", userController.getWallet);

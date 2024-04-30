@@ -66,6 +66,10 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/updateUsername`, formData);
   }
 
+  updatePassword(formData: any) {
+    return this.http.post<any>(`${this.apiUrl}/updatePassword`, formData);
+  }
+
   deleteUser(userId : string) {
     return this.http.delete<any>(`${this.apiUrl}/delete/${userId}`)
   }

@@ -35,6 +35,23 @@
         </div>
     </div>
 
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">Change Password</h2>
+            <form #updatePasswordForm="ngForm" class="needs-validation" novalidate (submit)="onSubmitPassword(updatePasswordForm)"> 
+                <div class="form-group">
+                    <label for="oldPass">Current Password:</label>
+                    <input type="password" [(ngModel)]="passwordForm.oldPass" class="form-control" id="oldPass" name="oldPass" placeholder="Enter your current password" required>
+                    <div class="invalid-feedback">Please enter your current password.</div>
+                    <label for="newPass">New Password:</label>
+                    <input type="password" [(ngModel)]="passwordForm.newPass" class="form-control" id="newPass" name="newPass" placeholder="Enter your new password" required>
+                    <div class="invalid-feedback">Please enter your new password</div>                    
+                    <button type="submit" class="btn btn-primary btn-block mt-2" [disabled]="!passwordForm.oldPass || !passwordForm.newPass">Submit changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
             <button id="dltBtn" (click)="deleteAccount()" class="btn btn-danger btn-md btn-block">Delete my account</button>

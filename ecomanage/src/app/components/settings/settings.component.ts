@@ -18,6 +18,7 @@ export class SettingsComponent {
   usernameTaken: boolean = false;
   nameForm = { name : "", userId : ""}
   usernameForm = {username: "", userId: ""}
+  passwordForm = {userId: "", oldPass: "", newPass: ""}
 
   constructor(private http: HttpClient, private authService : AuthService) {
   }
@@ -27,11 +28,24 @@ export class SettingsComponent {
     if (userId) {
       this.nameForm.userId = userId;
       this.usernameForm.userId = userId;
+      this.passwordForm.userId = userId;
     } else {
       console.error("User ID not found in token");
     }
   }
 
+  onSubmitPassword(form: NgForm) {
+    this.authService.updatePassword(this.passwordForm).subscribe(
+      (response) => {
+        console.log("Pass changed");
+        this.authService.logout();
+      },
+      (error) => {
+        console.log("Error changing password");
+        
+      }
+    )
+  }
 
   onSubmitName(form: NgForm) {
     this.authService.updateName(this.nameForm).subscribe(

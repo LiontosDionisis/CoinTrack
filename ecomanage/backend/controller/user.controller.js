@@ -29,6 +29,33 @@ exports.updateName = async (req, res) => {
   }
 };
 
+exports.updatePassword = async (req, res) => {
+  const {userId, oldPass, newPass} = req.body;
+
+  const user = await User.findOne({_id: userId});
+
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  const passwordMatch = await bcrypt.compare(oldPass, user.password);
+  if (!passwordMatch) {
+    return res.status(401).json({error: "Incorrect password"});
+  }
+
+  const hashedPassword = await bcrypt.hash(newPass, 10);
+  try {
+    await User.updateOne(
+      {_id: userId},
+      {$set: {password: hashedPassword}}
+    );
+    res.status(200).json({msg: "Password updated"});
+    console.log("Password updated");
+  } catch (error) {
+    res.status(500).json({error: "Internal server error"});
+  }
+}
+
 exports.updateUsername = async(req, res) => {
   const { userId, username} = req.body;
   if (!userId) {
