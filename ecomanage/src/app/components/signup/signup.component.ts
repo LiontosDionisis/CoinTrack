@@ -55,13 +55,21 @@ export class SignupComponent {
     this.http.post<any>("http://localhost:5000/api/user/signup", this.formData).subscribe(
       (response) => {
         console.log("User registered", response);
+        this.router.navigate(['/login']);
       },
       (error) => {
+        if(error.staus === 409) {
+          this.errorMessage = "Name is already required"
+        }
+        if(error.staus === 403) {
+          this.errorMessage = "Email or username is already taken"
+        }
+        
         console.log("Error during registration", error);
         this.errorMessage = error.error.error; 
       }
     );
-    this.router.navigate(['/login']);
+    
   }
 
 }

@@ -125,12 +125,12 @@
       </div>
       <!-- Transactions Section -->
       <div class="col-md-8">
-        <div id="transactions" class="card mt-4 border-0 bg-color hide" style="height: 300px; overflow-y: auto;">
+        <div id="transactions" class="card mt-4 border-0 bg-color hide" style="height: 400px; overflow-y: auto;">
           <ng-container *ngFor="let monthTransactions of incomeTransactions | keyvalue">
             <!-- Group header with month name and total income -->
-            <div class="card-header bg-success text-white" (click)="toggleVisibility(monthTransactions.key)">
+            <div class="card-header bg-success text-white" style="height: 100px" (click)="toggleVisibility(monthTransactions.key)">
               click to expand
-              <h2 class="mb-0">{{ monthTransactions.key }}</h2>
+              <h3 class="mb-0">{{ monthTransactions.key }}</h3>
               <p>Total Income: {{ totalIncomeByMonth[monthTransactions.key] }} €</p>
             </div>
             <!-- Transactions for the month -->

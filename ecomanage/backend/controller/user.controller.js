@@ -147,18 +147,18 @@ exports.login = async (req, res) => {
 exports.create = async (req, res) => {
   const { error } = registerValidation(req.body);
   if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      return res.status(409).json({ error: error.details[0].message });
   }
 
   try {
       const emailExists = await User.findOne({ email: req.body.email });
       if (emailExists) {
-          return res.status(400).json({ error: 'Email already exists' });
+          return res.status(403).json({ error: 'Email already exists' });
       }
 
       const usernameExists = await User.findOne({ username: req.body.username });
       if (usernameExists) {
-          return res.status(400).json({ error: 'Username already taken' });
+          return res.status(403).json({ error: 'Username already taken' });
       }
       
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -169,6 +169,10 @@ exports.create = async (req, res) => {
           password: hashedPassword,
           email: req.body.email
       });
+
+      if(newUser.name === "") {
+        return res.status(409).json({error: "Name is required"})
+      }
 
       const savedUser = await newUser.save();
       res.status(200).json({ data: savedUser });
