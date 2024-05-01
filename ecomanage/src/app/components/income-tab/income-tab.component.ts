@@ -5,6 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { IncomeServiceService } from 'src/app/services/income-service.service';
+import * as d3 from 'd3';
+
+
+
+
 
 
 
@@ -26,9 +31,9 @@ export class IncomeTabComponent {
   incomeTransactions: any[] = [];
   userId = this.authService.getUserIdFromToken();
   totalIncomeByMonth: { [key: string]: number } = {};
-
-
-  
+  totalIncomeChartData: any[] = []; 
+  incomeAdded: boolean = false;
+  visibleMonths: string[] = [];
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn()) {
@@ -39,8 +44,13 @@ export class IncomeTabComponent {
     //this.username = localStorage.getItem("username");
     this.calculateTotalIncomeByMonth();
     this.getIncome(this.username);
-    
   }
+
+  collapseAll(): void {
+    this.visibleMonths = [];
+  }
+
+
   onSubmit() {
     const incomeData = {
       incomeAmount: this.incomeAmount,
@@ -62,7 +72,6 @@ export class IncomeTabComponent {
       }
     );
   }
-
 
 
   getIncome(userId: string) {
@@ -125,7 +134,7 @@ export class IncomeTabComponent {
   this.calculateTotalIncomeByMonth();
   }
   
-  visibleMonths: string[] = [];
+ 
 
 toggleVisibility(month: string): void {
   if (this.visibleMonths.includes(month)) {

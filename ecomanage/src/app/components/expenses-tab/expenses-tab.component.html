@@ -117,34 +117,37 @@
           <button type="submit" class="btn btn-danger mt-2">Add</button>
         </form>
         <!-- Button to Show Past Transactions -->
-        <button class="hide-btn btn btn-outline-primary btn-sm mb-4" (click)="showTransactions()">Show Past Transactions</button>
+        <button class="hide-btn btn btn-outline-danger btn-lg mb-4" (click)="showTransactions()">Show Transactions</button>
       </div>
   
       <!-- Transactions List -->
-      <div id="transactions" class="bg-color col-md-8 card mt-4 border-0 hide" style="height: 300px; overflow-y: auto;">
+      <div id="transactions" class="bg-color col-md-8 card mt-4 border-0 hide" style="height: 500px; overflow-y: auto;">
         <ng-container *ngFor="let monthTransactions of expensesTransactions | keyvalue">
           <!-- Group header with month name -->
-          <div class="card-header bg-danger text-white" style="height: 100px" (click)="toggleVisibility(monthTransactions.key)">click to expand
-            <h3 class="mb-0">{{ monthTransactions.key }}</h3>
-            <!-- Display total expenses for the month -->
-            <p>Total Expenses: {{ getTotalExpenses(monthTransactions.value) }} €</p>
+          <div class="card-header bg-danger text-white" style="height: 100px" (click)="toggleVisibility(monthTransactions.key)">
+            <div class="header-content">
+              <h3 class="mb-0">{{ monthTransactions.key }}</h3>
+              <!-- Display total expenses for the month -->
+              <p>Total Expenses: {{ getTotalExpenses(monthTransactions.value) }} €</p>
+            </div>
+            <button class="btn btn-sm btn-light expand-button">click to expand</button>
           </div>
           <!-- Transactions for the month -->
           <div class="card-body transactions" [hidden]="!visibleMonths.includes(monthTransactions.key)">
             <div class="table-responsive">
-              <table class="table table-striped">
+              <table class="table table-striped custom-table">
                 <thead>
-                  <tr>
+                  <tr class="table-header">
                     <th>Amount</th>
                     <th>Comment</th>
                     <th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let transaction of monthTransactions.value">
-                    <td>{{ transaction.amount }} €</td>
-                    <td>{{ transaction.source }}</td>
-                    <td>{{ transaction.createdAt | date: 'medium' }}</td>
+                  <tr *ngFor="let transaction of monthTransactions.value" class="table-row">
+                    <td class="amount-column">{{ transaction.amount }} €</td>
+                    <td class="comment-column">{{ transaction.source }}</td>
+                    <td class="date-column">{{ transaction.createdAt | date: 'medium' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -152,6 +155,7 @@
           </div>
         </ng-container>
       </div>
+      
     </div>
   </div>
   
