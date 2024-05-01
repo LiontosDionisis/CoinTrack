@@ -15,10 +15,13 @@ import { AuthService } from 'src/app/services/auth.service';
   providers: [AuthService]
 })
 export class SettingsComponent {
+  errorMessage: string;
+  errorMessagePass: string;
   usernameTaken: boolean = false;
   nameForm = { name : "", userId : ""}
   usernameForm = {username: "", userId: ""}
   passwordForm = {userId: "", oldPass: "", newPass: ""}
+  emailForm = {userId: "", email: ""}
 
   constructor(private http: HttpClient, private authService : AuthService) {
   }
@@ -29,9 +32,38 @@ export class SettingsComponent {
       this.nameForm.userId = userId;
       this.usernameForm.userId = userId;
       this.passwordForm.userId = userId;
+      this.emailForm.userId = userId;
     } else {
       console.error("User ID not found in token");
     }
+  }
+
+  isEmailValid(email: string): boolean {
+    // Regular expression for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+
+  onSubmitEmail(form: NgForm) {
+    if (!this.isEmailValid(this.emailForm.email)) {
+      this.errorMessage = "Invalid email format";
+      return;
+    }
+    
+    this.authService.updateEmail(this.emailForm).subscribe(
+      (response) => {
+        console.log(this.emailForm.email)
+        console.log("Email changed");
+        this.authService.logout()
+      },
+      (error) => {
+        if(error.status === 409) {
+          this.errorMessage = "Email already exists."
+        }
+        console.log("Error changing email", error);
+      }
+    )
   }
 
   onSubmitPassword(form: NgForm) {
@@ -41,6 +73,12 @@ export class SettingsComponent {
         this.authService.logout();
       },
       (error) => {
+        if(error.status === 401) {
+          this.errorMessagePass = "Incorrect password"
+        }
+        if(error.status === 400) {
+          this.errorMessage = "Password must have at least 6 characters."
+        }
         console.log("Error changing password");
         
       }
@@ -68,7 +106,7 @@ export class SettingsComponent {
       },
       (error) => {
         console.log("Error updating username");
-        if (error.status === 500) { // Assuming 409 status code for username already taken
+        if (error.status === 409) { 
           this.usernameTaken = true;
           setTimeout(() => {
               this.usernameTaken = false; // Toggle usernameTaken back to false after 3 seconds

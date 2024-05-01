@@ -35,10 +35,26 @@
         </div>
     </div>
 
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">Change Email</h2>
+            <form #updateEmailForm="ngForm" class="needs-validation" novalidate (submit)="onSubmitEmail(updateEmailForm)">
+                <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+                <div class="form-group">
+                    <label for="email">New Email:</label>
+                    <input [(ngModel)]="emailForm.email" type="email" class="form-control" id="email" name="email" placeholder="Enter your new email" required>
+                    <div class="invalid-feedback">Please enter your new email.</div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-2" [disabled]="!emailForm.email">Submit changes</button>
+            </form>
+        </div>
+    </div>
+    
     <div class="row justify-content-center mt-4">
         <div class="col-md-8">
             <h2 class="text-center mb-4">Change Password</h2>
-            <form #updatePasswordForm="ngForm" class="needs-validation" novalidate (submit)="onSubmitPassword(updatePasswordForm)"> 
+            <form #updatePasswordForm="ngForm" class="needs-validation" novalidate (submit)="onSubmitPassword(updatePasswordForm)">
+                <div *ngIf="errorMessagePass" class="alert alert-danger">{{ errorMessagePass }}</div> 
                 <div class="form-group">
                     <label for="oldPass">Current Password:</label>
                     <input type="password" [(ngModel)]="passwordForm.oldPass" class="form-control" id="oldPass" name="oldPass" placeholder="Enter your current password" required>

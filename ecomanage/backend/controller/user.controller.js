@@ -7,7 +7,32 @@ require('dotenv').config();
 
 const secretKey = process.env.JWT_SECRET;
 
+exports.updateEmail = async (req, res) => {
+  const { error } = registerValidation(req.body);
+  if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+  }
+  const {userId, email} = req.body;
 
+  const user = await User.findOne({_id: userId});
+
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser && existingUser._id.toString() !== userId) {
+    return res.status(409).json({ msg: "Email already registered" });
+  }
+
+  try {
+    await User.updateOne(
+      {_id: userId},
+      {$set: {email: email}}
+    )
+    console.log(email);
+    res.status(200).json({msg: "Email updated!"});
+  } catch (error) {
+    res.status(500).json({error: "Internal server error"});
+  }
+}
 
 exports.updateName = async (req, res) => {
   const { userId, name } = req.body;
@@ -30,6 +55,10 @@ exports.updateName = async (req, res) => {
 };
 
 exports.updatePassword = async (req, res) => {
+  const { error } = registerValidation(req.body);
+  if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+  }
   const {userId, oldPass, newPass} = req.body;
 
   const user = await User.findOne({_id: userId});
@@ -61,6 +90,13 @@ exports.updateUsername = async(req, res) => {
   if (!userId) {
     return res.status(404).json({error: "User ID not found"})
   }
+
+  const existingUser = await User.findOne({ username });
+
+  if (existingUser && existingUser._id.toString() !== userId) {
+    return res.status(409).json({ msg: "Username already registered" });
+  }
+
   try {
     await User.updateOne(
       {_id: userId},
