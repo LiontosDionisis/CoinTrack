@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { IncomeServiceService } from 'src/app/services/income-service.service';
-import * as d3 from 'd3';
+//import * as d3 from 'd3';
 
 
 
