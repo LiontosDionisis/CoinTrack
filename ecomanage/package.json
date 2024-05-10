@@ -1,5 +1,5 @@
 {
-  "name": "ecomanage",
+  "name": "cointrack",
   "version": "0.0.0",
   "scripts": {
     "dev": "nodemon --env-file=./backend/.env ./backend/app.js",
@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "deploy": "ng deploy --base-href=https://liontosdionisis.github.io/eco-manage",
+    "deploy": "ng deploy --base-href=https://liontosdionisis.github.io/CoinTrack/",
     "test": "ng test"
   },
   "private": true,
