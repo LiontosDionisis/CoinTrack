@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, RouterModule, HttpClientModule, FormsModule],
+  imports: [RouterLink, RouterModule, HttpClientModule, FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   providers: [
@@ -48,7 +48,13 @@ export class LoginComponent {
         },
         error: (error) => {
           if (error.status == 404){
-            this.errorMessage = "Invalid credentials"
+            this.errorMessage = "Invalid credentials."
+          }
+          if (error.status == 401){
+            this.errorMessage = "Invalid credentials."
+          }
+          if (error.status == 500){
+            this.errorMessage = "Internal server error."
           }
           this.errorMessage = error.error.error;
         }

@@ -21,7 +21,7 @@
           <div class="text-center">
             <span class="text-dark fs-3 mb-4">Ready to take control of your finances? Log in and track your income and expenses effortlessly!</span>
           </div>
-          <div class="alert alert-danger">{{errorMessage}}</div>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-2">{{errorMessage}}</div>
           <form class="mt-4" (ngSubmit)="login()" method="post">
             <div class="mb-3">
               <label class="form-label text-light" for="username">Username</label>
