@@ -10,7 +10,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:5000/api/user';
-  //private apiUrl = 'http://192.168.1.101:5000/api/user';
+  
   
   constructor(private http: HttpClient, private router : Router) {}
 

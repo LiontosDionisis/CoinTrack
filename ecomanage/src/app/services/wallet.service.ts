@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class WalletService {
 
   private apiUrl = 'http://localhost:5000/api/user';
-  //private apiUrl = 'http://192.168.1.101:5000/api/user';
+  
 
   constructor(private http: HttpClient) { }
 

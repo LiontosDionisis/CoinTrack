@@ -47,7 +47,9 @@ export class LoginComponent {
           localStorage.setItem("wallet", response.wallet);
         },
         error: (error) => {
-          console.log("Login failed", error);
+          if (error.status == 404){
+            this.errorMessage = "Invalid credentials"
+          }
           this.errorMessage = error.error.error;
         }
       });

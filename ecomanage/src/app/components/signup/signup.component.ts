@@ -52,7 +52,7 @@ export class SignupComponent {
       return;
     }
 
-    this.http.post<any>("http://localhost:5000/api/user/signup", this.formData).subscribe(
+    this.http.post<any>('http://localhost:5000/api/user/signup', this.formData).subscribe(
       (response) => {
         console.log("User registered", response);
         this.router.navigate(['/login']);
